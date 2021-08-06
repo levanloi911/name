@@ -1,0 +1,15 @@
+.nav{
+    background-color: rgb(7, 160, 7);
+   border-top-left-radius: 10px;
+   border-top-right-radius: 10px;
+}
+.nav-item>a{
+    color: white;
+    font-weight: 500;
+    padding: .5rem 1rem;
+    text-decoration: none;
+    display: block;
+}
+.nav :last-child {
+  margin-left: auto;
+}
