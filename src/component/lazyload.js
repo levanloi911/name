@@ -34,10 +34,10 @@ function Lazyload(){
                 />
                
             </div>
-        <div className="lazy_grid">
+            <div className="lazy_grid" >
           
             {  filter.map((item)=>(
-                <div className='content_grid'>
+                <div className='content_grid' style={{ width: filter.length < 2?'50%':''}}>
                     <LazyLoad height={200} offset={100}
                         placeholder={<Loading />}>
                         <ReactVideosPreview  list={[

@@ -57,3 +57,27 @@
     transform: rotate(360deg);
   }
 }
+
+
+/* Mobile with < 740px */
+@media only screen and (max-width : 46.1875em) {
+.nav-item{
+    display: none;
+}
+.nav :last-child{
+    display: inline-block;
+}
+
+
+    
+    }
+
+/* tablet with >=740px and width <1024 */
+@media only screen and (min-width : 740px) and (max-width : 1023px) {
+.nav-item{
+    display: none;
+}
+.nav :last-child{
+    display: inline-block;
+}
+}

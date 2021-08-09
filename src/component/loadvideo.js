@@ -104,37 +104,38 @@ function Loadvideo() {
     console.log(user)
     return (
         <div className="container_video">
-            <div className="videoPlay">
-                <div>
+            {crud === false ?
+            <div className="c_video">
+                <div className="videoPlay">
                     <div>
-                        <YouTube 
-                            className='video'
-                            videoId={videoCode}
-                            containerClassName="embed embed-youtube"
-                            onStateChange={(e) => checkElapsedTime(e)}
-                            opts={opts}
-                        />
+                        <div>
+                            <YouTube 
+                                className='video'
+                                videoId={videoCode}
+                                containerClassName="embed embed-youtube"
+                                onStateChange={(e) => checkElapsedTime(e)}
+                                opts={opts}
+                            />
+                        </div>
+                        
                     </div>
-                    
+
+                    <Modal
+                        isOpen={modalIsOpen}
+                        onRequestClose={() => setModalIsOpen(false)}
+                        contentLabel="Exercise Completed"
+                    >
+                        <div>
+                            <h3>Completed the exercise?</h3>
+                            <button onClick={handleExerciseComplete}>Complete exercise</button>
+                        </div>
+                    </Modal>
+
                 </div>
-
-                <Modal
-                    isOpen={modalIsOpen}
-                    onRequestClose={() => setModalIsOpen(false)}
-                    contentLabel="Exercise Completed"
-                  >
-                    <div>
-                        <h3>Completed the exercise?</h3>
-                        <button onClick={handleExerciseComplete}>Complete exercise</button>
-                    </div>
-                </Modal>
-
-            </div>
-            <div className="listvideo" style={{ position: 'relative' }}>
-                <ul>
-                    {crud === true ?
-                    <Button onClick ={()=>handleAdd()} style={{width:'calc(100% - 20px)', margin:"10px"}} variant="success">Add video</Button>
-                        : ""}
+                <div className="listvideo" style={{ position: 'relative' }}>
+                <div>
+                   
+                        
                     {url && url.filter(itemF => itemF.id !== urlfillter).slice(0,5).map(item=>(
                         <li>
                             <div onClick={() => handleSetUrl(item.id,item.url)}>
@@ -157,54 +158,58 @@ function Loadvideo() {
 
                                 <span className='title'>{item.title}</span>
                             </div>
-                            {crud === true ?
-                                <div >
-
-                                    <Edit onClick={() => handleEdit(item.id, item.title, item.url)} fontSize="small" style={{
-                                        width: '50%', backgroundColor: 'green', height: "25px", margin: '1px'
-                                    }}/>
-                                    <Delete onClick={() => handleRemove(item.id)} fontSize="small" style={{
-                                        width: '50%', backgroundColor: 'red', height: "25px", margin:'1px'
-                                    }} />
-                                </div>
-                                : ""}
+                          
                         </li>
                     ))}
                     
 
-                    <Modal
-                        show={Open}
-                        onHide={() => setOpen(false)}
-                       >
-                        <Modal.Header closeButton>
-                            <Modal.Title>{nameButton}</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <div className="ModalFrom">
-                                    <label>Title video</label>
-                                    <input  placeholder="Title" value={Title} onChange={(e) => setTitle(e.target.value)} />
-                                    <label>Link video</label>
-                                    <input  placeholder='Link url' value={LinkUrl} onChange={(e) => setLinkUrl(e.target.value)} />
-                                    <Button type='submit' disabled={loading}  onClick={handleSubmit} >     {loading && (
-                                        <span className="spinner-border spinner-border-sm"></span>
-                                    )}
-                                        <span>{nameButton}</span></Button>
-                                
-                            </div>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button variant="secondary" onClick={()=>setOpen(false)}>
-                                Close
-                            </Button>
-
-                        </Modal.Footer>
-                       
-                       
-                    
-                    </Modal>
-                  
-                </ul>
+                   
+                </div>
             </div> 
+          
+            </div>
+           :
+
+                <div className='table_manage'>
+
+                        <div className='manage'>
+                            <h3 className="text_manage">Manage Video</h3>
+                        <Button onClick={() => handleAdd()} className="btn_add">Add video</Button>
+                        </div>
+                        <table class="table">
+                            <caption>List </caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Stt</th>
+                                    <th scope="col">Link url</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {url && url.filter(itemF => itemF.id !== urlfillter).slice(0, 5).map((item, index) => (
+                                    <tr>
+                                        <th scope="row">{index + 1}</th>
+                                        <td>{item.url}</td>
+                                        <td>{item.title}</td>
+                                        <td>
+                                            <Edit onClick={() => handleEdit(item.id, item.title, item.url)} fontSize="small" style={{
+                                                width: '50%', margin: '1px'
+                                            }} />
+                                            <Delete onClick={() => handleRemove(item.id)} fontSize="small" style={{
+                                                width: '50%', margin: '1px'
+                                            }} /></td>
+                                    </tr>
+                                ))}
+
+                            </tbody>
+                        </table>
+
+        </div>
+        
+
+
+            }
             <ToastContainer
                 position="top-left"
                 autoClose={3000}
@@ -216,6 +221,37 @@ function Loadvideo() {
                 draggable
                 pauseOnHover
             />
+            <Modal
+                show={Open}
+                onHide={() => setOpen(false)}
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>{nameButton}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="ModalFrom">
+                        <label>Title video</label>
+                        <input placeholder="Title" value={Title} onChange={(e) => setTitle(e.target.value)} />
+                        <label>Link video</label>
+                        <input placeholder='Link url' value={LinkUrl} onChange={(e) => setLinkUrl(e.target.value)} />
+                        <Button type='submit' disabled={loading} onClick={handleSubmit} >     {loading && (
+                            <span className="spinner-border spinner-border-sm"></span>
+                        )}
+                            <span>{nameButton}</span></Button>
+
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setOpen(false)}>
+                        Close
+                    </Button>
+
+                </Modal.Footer>
+
+
+
+            </Modal>
+
         </div>
     );
 }
